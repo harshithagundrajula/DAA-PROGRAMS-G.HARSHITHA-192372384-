@@ -1,0 +1,27 @@
+def word_break(s: str, wordDict: set) -> str: 
+n = len(s) 
+dp = [False] * (n + 1) 
+dp[0] = True   
+segmentation = [""] * (n + 1) 
+for i in range(1, n + 1): 
+for j in range(i): 
+if dp[j] and s[j:i] in wordDict: 
+dp[i] = True 
+if segmentation[j]: 
+segmentation[i] = segmentation[j] + " " + s[j:i] 
+else: 
+segmentation[i] = s[j:i] 
+break   
+if dp[n]: 
+return f"Yes, the string can be segmented as: '{segmentation[n]}'" 
+else: 
+return "No, the string cannot be segmented." 
+if __name__ == "__main__": 
+wordDict = {"i", "like", "sam", "sung", "samsung", "mobile", "ice", "cream", "icecream", "man", 
+"go", "mango"} 
+input1 = "ilike" 
+result1 = word_break(input1, wordDict) 
+print(f"Input: '{input1}' -> Output: {result1}") 
+input2 = "ilikesamsung" 
+result2 = word_break(input2, wordDict) 
+print(f"Input: '{input2}' -> Output: {result2}")
