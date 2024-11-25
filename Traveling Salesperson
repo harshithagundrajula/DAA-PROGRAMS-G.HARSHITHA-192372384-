@@ -1,0 +1,34 @@
+def tsp(graph, mask, pos, dp): 
+if mask == (1 << len(graph)) - 1: 
+return graph[pos][0], [0] 
+if dp[pos][mask] != (float('inf'), []): 
+return dp[pos][mask] 
+ans = float('inf') 
+path = [] 
+for city in range(len(graph)): 
+if (mask & (1 << city)) == 0: 
+newAns, sub_path = tsp(graph, mask | (1 << city), city, dp) 
+newAns += graph[pos][city] 
+if newAns < ans: 
+ans = newAns 
+path = [city] + sub_path   
+dp[pos][mask] = (ans, path)  # Store the result with the path 
+return dp[pos][mask] 
+def find_shortest_route(graph): 
+n = len(graph) 
+dp = [[(float('inf'), []) for _ in range(1 << n)] for _ in range(n)]  # DP table 
+min_distance, route = tsp(graph, 1, 0, dp) 
+return min_distance, route 
+if __name__ == "__main__": 
+graph = [ 
+[0, 10, 15, 20, 25],   
+[10, 0, 35, 25, 30],   
+[15, 35, 0, 30, 20],   
+[20, 25, 30, 0, 15],   
+[25, 30, 20, 15, 0]    
+] 
+min_distance, route = find_shortest_route(graph) 
+city_names = ['A', 'B', 'C', 'D', 'E'] 
+route_names = [city_names[i] for i in route] + [city_names[0]]  # Return to starting city 
+print(f"The shortest route is: {' -> '.join(route_names)}") 
+print(f"Total distance: {min_distance}")
