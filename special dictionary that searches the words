@@ -1,0 +1,23 @@
+class WordFilter: 
+def __init__(self, words): 
+self.words = words 
+self.prefix_map = {} 
+for index, word in enumerate(words): 
+for i in range(len(word) + 1):  # Include all prefixes 
+prefix = word[:i] 
+if prefix not in self.prefix_map: 
+self.prefix_map[prefix] = [] 
+self.prefix_map[prefix].append(index) 
+def f(self, pref, suff): 
+suffix = suff[::-1] 
+if pref not in self.prefix_map: 
+return -1 
+indices = self.prefix_map[pref] 
+for index in reversed(indices):   
+if self.words[index].endswith(suff): 
+return index 
+return -1 
+if __name__ == "__main__": 
+# Initialize WordFilter with a list of words 
+word_filter = WordFilter(["apple"])    
+print(word_filter.f("a", "e"))   
