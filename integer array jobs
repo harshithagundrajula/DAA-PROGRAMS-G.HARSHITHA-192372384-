@@ -1,0 +1,30 @@
+def canAssign(jobs, k, limit): 
+# Array to store the workload of each worker 
+workloads = [0] * k 
+def backtrack(i): 
+if i == len(jobs): 
+return True 
+for j in range(k): 
+if workloads[j] + jobs[i] <= limit: 
+workloads[j] += jobs[i] 
+if backtrack(i + 1): 
+return True 
+workloads[j] -= jobs[i] 
+if workloads[j] == 0:   
+break 
+return False 
+return backtrack(0) 
+def minMaxWorkingTime(jobs, k): 
+jobs.sort(reverse=True) 
+left, right = max(jobs), sum(jobs) 
+while left < right: 
+mid = (left + right) // 2 
+if canAssign(jobs, k, mid): 
+right = mid  # Try for a smaller possible time 
+else: 
+left = mid + 1  # Increase the working time limit 
+return left 
+jobs = [3, 2, 3] 
+k = 3 
+result = minMaxWorkingTime(jobs, k) 
+print(f"The minimum possible maximum working time is: {result}")
