@@ -1,0 +1,28 @@
+import heapq 
+def dijkstra(graph, source): 
+n = len(graph)   
+dist = [float('inf')] * n   
+dist[source] = 0   
+pq = [(0, source)]      
+while pq: 
+current_dist, u = heapq.heappop(pq)   
+if current_dist > dist[u]: 
+continue 
+for v in range(n): 
+if graph[u][v] != float('inf'):  # If there is an edge from u to v 
+distance = current_dist + graph[u][v] 
+if distance < dist[v]: 
+dist[v] = distance 
+heapq.heappush(pq, (distance, v))  # Push the new distance to the queue 
+return dist 
+n = 5 
+graph = [ 
+[0, 10, 3, float('inf'), float('inf')], 
+[float('inf'), 0, 1, 2, float('inf')], 
+[float('inf'), 4, 0, 8, 2], 
+[float('inf'), float('inf'), float('inf'), 0, 7], 
+[float('inf'), float('inf'), float('inf'), 9, 0] 
+] 
+source = 0 
+shortest_paths = dijkstra(graph, source) 
+print(f"The shortest distances from vertex {source} are: {shortest_paths}") 
