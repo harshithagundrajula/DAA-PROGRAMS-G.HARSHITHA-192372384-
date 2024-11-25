@@ -1,0 +1,17 @@
+def min_coins_to_reach_target(coins, target): 
+coins.sort() 
+current_max = 0 
+count_added = 0 
+i = 0 
+while current_max < target: 
+if i < len(coins) and coins[i] <= current_max + 1: 
+current_max += coins[i] 
+i += 1 
+else: 
+current_max += (current_max + 1) 
+count_added += 1 
+return count_added 
+coins = [1, 4, 10] 
+target = 19 
+result = min_coins_to_reach_target(coins, target) 
+print(f"Output: {result}")   
