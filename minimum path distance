@@ -1,0 +1,27 @@
+def tsp(graph, mask, pos, dp): 
+# If all cities have been visited 
+if mask == (1 << len(graph)) - 1: 
+return graph[pos][0]   
+if dp[pos][mask] != -1: 
+return dp[pos][mask] 
+ans = float('inf') 
+for city in range(len(graph)): 
+if (mask & (1 << city)) == 0: 
+newAns = graph[pos][city] + tsp(graph, mask | (1 << city), city, dp) 
+ans = min(ans, newAns)  # 
+dp[pos][mask] = ans   
+return ans 
+def find_minimum_path_distance(graph): 
+n = len(graph) 
+dp = [[-1] * (1 << n) for _ in range(n)]  # DP table 
+result = tsp(graph, 1, 0, dp) 
+return result 
+if __name__ == "__main__": 
+graph = [ 
+[0, 10, 15, 20], 
+[10, 0, 35, 25], 
+[15, 35, 0, 30], 
+[20, 25, 30, 0] 
+] 
+minimum_distance = find_minimum_path_distance(graph) 
+print(f"Minimum path distance: {minimum_distance}")
