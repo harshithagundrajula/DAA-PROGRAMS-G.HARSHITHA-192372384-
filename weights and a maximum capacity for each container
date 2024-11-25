@@ -1,0 +1,18 @@
+def min_containers(weights, max_capacity) 
+weights.sort() 
+container_count = 0 
+current_capacity = 0 
+for weight in weights: 
+if current_capacity + weight > max_capacity: 
+container_count += 1   
+current_capacity = weight   
+else: 
+current_capacity += weight   
+if current_capacity > 0: 
+container_count += 1 
+return container_count 
+n = 7 
+weights = [5, 10, 15, 20, 25, 30, 35] 
+max_capacity = 50 
+result = min_containers(weights, max_capacity 
+print(result)
