@@ -1,0 +1,44 @@
+import heapq 
+class HuffmanNode: 
+def __init__(self, char=None, freq=0): 
+self.char = char 
+self.freq = freq 
+self.left = None 
+self.right = None 
+def __lt__(self, other): 
+return self.freq < other.freq 
+def build_huffman_tree(characters, frequencies): 
+heap = [] 
+for i in range(len(characters)): 
+node = HuffmanNode(characters[i], frequencies[i]) 
+heapq.heappush(heap, node) 
+while len(heap) > 1: 
+left = heapq.heappop(heap) 
+right = heapq.heappop(heap) 
+merged = HuffmanNode(None, left.freq + right.freq) 
+merged.left = left 
+merged.right = right 
+heapq.heappush(heap, merged) 
+return heap[0]  # Return the root of the Huffman Tree 
+def decode_huffman(root, encoded_string): 
+decoded_message = [] 
+current_node = root 
+for bit in encoded_string: 
+if bit == '0': 
+current_node = current_node.left 
+else: 
+current_node = current_node.right 
+if current_node.char is not None: 
+decoded_message.append(current_node.char) 
+current_node = root  # Go back to the root for the next set of bits 
+return ''.join(decoded_message) 
+def huffman_decoding(characters, frequencies, encoded_string): 
+huffman_tree_root = build_huffman_tree(characters, frequencies)   
+decoded_message = decode_huffman(huffman_tree_root, encoded_string) 
+return decoded_message 
+n = 4 
+characters = ['a', 'b', 'c', 'd'] 
+frequencies = [5, 9, 12, 13] 
+encoded_string = '1101100111110' 
+decoded_message = huffman_decoding(characters, frequencies, encoded_string) 
+print(decoded_message)
