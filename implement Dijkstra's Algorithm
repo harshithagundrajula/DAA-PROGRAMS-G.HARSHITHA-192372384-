@@ -1,0 +1,33 @@
+import heapq 
+def dijkstra(n, edges, source, target): 
+graph = {i: [] for i in range(n)} 
+for u, v, w in edges: 
+graph[u].append((v, w)) 
+graph[v].append((u, w))  # Since the graph is undirected 
+dist = [float('inf')] * n 
+dist[source] = 0 
+pq = [(0, source)]  # Priority queue stores (distance, vertex) 
+while pq: 
+current_dist, u = heapq.heappop(pq)  # Get the vertex with smallest distance         
+if u == target: 
+return current_dist  # Return distance when the target is reached    
+if current_dist > dist[u]: 
+continue  # If we have already found a shorter path, skip         
+for v, weight in graph[u]: 
+distance = current_dist + weight            
+if distance < dist[v]: 
+dist[v] = distance 
+heapq.heappush(pq, (distance, v))  # Push the new distance to the queue 
+return float('inf') 
+n = 6 
+edges = [ 
+(0, 1, 7), (0, 2, 9), (0, 5, 14), 
+(1, 2, 10), (1, 3, 15), 
+(2, 3, 11), (2, 5, 2), 
+(3, 4, 6), 
+(4, 5, 9) 
+] 
+source = 0 
+target = 4 
+shortest_path = dijkstra(n, edges, source, target) 
+print(f"The shortest path from vertex {source} to vertex {target} is: {shortest_path}") 
